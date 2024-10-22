@@ -180,3 +180,46 @@ for lengua,matriz in matrices_algoritmo:
 
     plt.tight_layout()
     plt.show()
+
+def graficar_tiempos(algoritmos, resultados, n_elementos):
+    # Asegúrate de que resultados tenga la forma adecuada (lenguajes x algoritmos x n_elementos)
+    for i, algoritmo in enumerate(algoritmos):
+        plt.figure()
+        for j, (resultado, nombre_lenguaje) in enumerate(resultados):
+            tiempos = np.array(resultado[i])  # Asegúrate de obtener el tiempo para el algoritmo i
+            # Verifica que la longitud de tiempos coincida con n_elementos
+            if len(tiempos) != len(n_elementos):
+                print(f"Warning: La longitud de los tiempos para {nombre_lenguaje} con {algoritmo} no coincide con n_elementos.")
+                continue
+            
+            plt.plot(np.arange(len(n_elementos)), tiempos, label=nombre_lenguaje, linewidth=2)
+
+        plt.xlabel('Número de elementos', fontsize=10)
+        plt.ylabel('Tiempo de ejecución (s)', fontsize=10)
+        plt.title(f'Tiempos de ejecución de {algoritmo}', fontsize=12)
+
+        plt.xticks(np.arange(len(n_elementos)), n_elementos, rotation=45)
+        plt.legend(loc='best', fontsize=10)
+        plt.xticks(fontsize=8)
+        plt.yticks(fontsize=8)
+
+        plt.tight_layout()
+        plt.show()
+
+algoritmos = [
+    'Bubble Sort',
+    'Counting Sort',
+    'Heap Sort',
+    'Insertion Sort',
+    'Merge Sort',
+    'Quick Sort',
+    'Selection Sort'
+]
+
+resultados = [
+    [resultado_java, "Java"],
+    [resultado_cpp, "C++"],
+    [resultado_python, "Python"]
+]
+n_elementos=np.array([100,500,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,20000,30000,40000,50000,60000,70000,80000,90000,100000])
+graficar_tiempos(algoritmos, resultados, n_elementos)
